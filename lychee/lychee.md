@@ -274,7 +274,7 @@ El desplegament l'hem fet en una Fedora 43, per això cal tenir present el tema 
 
 ## Final
  
-Quan entres a https://lychee.cim.lan per primer cop, Lychee et demana un usuari `admin` i un *password*, després de fer-ho, ja pots gaudir de `Lychee` i començar a pujar fotos i configurar-lo al teu gust.
+Quan entres a <https://lychee.cim.lan> per primer cop, Lychee et demana un usuari `admin` i un *password*, després de fer-ho, ja pots gaudir de `Lychee` i començar a pujar fotos i configurar-lo al teu gust.
 
 ## Si t'has *enmerdat*  molt i vols començar de zero sempre pots fer això
 
