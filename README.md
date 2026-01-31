@@ -8,8 +8,8 @@ Cada galeria està documentada dins del seu directori propi, amb instruccions co
 ## - Índex de galeries
 
 - [Lychee](./lychee/lychee.md) — instal·lació i desplegament amb Podman, MariaDB i Nginx
+- [PiGallery2](./pigallery2/pigaller2_quadlets.md) — instal·lació i desplegament amb Podman Quadlets, MariaDB i Ninx
 - (Piwigo) — pendent de documentar
-- (PiGallery2) — pendent de documentar
 
 ## - Objectiu del repositori
 
@@ -17,6 +17,6 @@ Mantenir en un sol lloc tota la documentació de les galeries casolanes, amb con
 
 ## - Estat actual
 
-Només la galeria **Lychee** està completament documentada.  
+Només la galeria **Lychee** està completament documentada, ara també **Pigallery2!** i amb **Quadlets!!!!**  
 La resta s’aniran afegint a poc a poc.
 
