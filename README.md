@@ -8,7 +8,7 @@ Cada galeria està documentada dins del seu directori propi, amb instruccions co
 ## - Índex de galeries
 
 - [Lychee](./lychee/lychee.md) — instal·lació i desplegament amb Podman, MariaDB i Nginx
-- [PiGallery2 amb Quadlets](./pigallery2/pigaller2_quadlets.md) — instal·lació i desplegament amb Podman Quadlets, MariaDB i Ninx
+- [PiGallery2 amb Quadlets](./pigallery2/pigallery2_quadlets.md) — instal·lació i desplegament amb Podman Quadlets, MariaDB i Ninx
 - (Piwigo) — pendent de documentar
 
 ## - Objectiu del repositori
