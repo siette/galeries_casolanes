@@ -322,5 +322,5 @@ Tornem a ser dins d'una Fedora 43, cal vigilar com sempre el SELinux, els arxius
   systemctl --user start pigallery2
   ```
 
-- Ara ja tenim PiGallery2 amb MariaDB de base de dades i Nginx fent de proxy, a gaudir.
+- Ara ja tenim PiGallery2 amb MariaDB com a base de dades i Nginx fent de proxy, a gaudir.
 
