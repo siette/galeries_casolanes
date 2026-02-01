@@ -1,6 +1,6 @@
 # Instal·lació i desplegament de Lychee, MariaDB i Nginx amb Podman Quadlets
 
-Igual que amb [PiGallery2 amb Quadlets](./pigallery2/pigallery2_quadlets.md), aquí farem servir el mateix sistema on aconseguim un *server* amb una galeria en qüestió de minuts.
+Igual que amb [PiGallery2 amb Quadlets](../pigallery2/pigallery2_quadlets.md), aquí farem servir el mateix sistema on aconseguim un *server* amb una galeria en qüestió de minuts.
 
 Intentarem explicar com hem posat en marxa el Lychee amb MariaDB i Nginx fent servir Quadlets, com sempre per a la xarxa de casa, el domini per accedir a la galeria serà: <https://lychee.cim.lan>
 
