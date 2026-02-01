@@ -56,16 +56,16 @@ El desplegament l'hem fet en una Fedora 43, per això cal tenir present el tema 
 - Per Lychee + MariaDB
 
   ```bash
-  mkdir -p /home/joan/lychee/db
-  mkdir -p /home/joan/lychee/config
-  mkdir -p /home/joan/lychee/pictures
+  mkdir -p ~/lychee/db
+  mkdir -p ~/lychee/config
+  mkdir -p ~/lychee/pictures
   ```
 
 - Per Nginx
 
   ```bash
-  mkdir -p /home/joan/nginx/config/keys
-  mkdir -p /home/joan/nginx/config/nginx/site-confs
+  mkdir -p ~/nginx/config/keys
+  mkdir -p ~/nginx/config/nginx/site-confs
   ```
 
 ## Generació de certificats autosignats
