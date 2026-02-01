@@ -18,6 +18,6 @@ Mantenir en un sol lloc tota la documentació de les galeries casolanes, amb con
 
 ## - Estat actual
 
-Només la galeria **Lychee** està completament documentada, ara també **Pigallery2!** i amb **Quadlets!!!!**  
+Només la galeria **Lychee** està completament documentada, ara també **Pigallery2!** i **Lychee** amb **Quadlets!!!!**  
 La resta s’aniran afegint a poc a poc.
 
