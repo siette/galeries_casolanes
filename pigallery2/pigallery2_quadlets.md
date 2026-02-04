@@ -201,7 +201,7 @@ Tornem a ser dins d'una Fedora 43, cal vigilar com sempre el SELinux, els arxius
 
 ## Configuració de Nginx
 
-- Fitxer de configuració per al proxy invers cap a PiGallery2, fem un `vim ~/nginx/config/pigallery2.conf` i escrivim:
+- Fitxer de configuració per al proxy invers cap a PiGallery2, fem un `vim ~/nginx/config/nginx.conf` i escrivim:
 
   ```text
   events {
