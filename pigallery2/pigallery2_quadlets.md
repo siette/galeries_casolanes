@@ -324,3 +324,20 @@ Tornem a ser dins d'una Fedora 43, cal vigilar com sempre el SELinux, els arxius
 
 - Ara ja tenim PiGallery2 amb MariaDB com a base de dades i Nginx fent de proxy, a gaudir.
 
+## Backups:
+
+- Containers, .json i nginx.conf:
+
+  ```
+  cp ~/.config/containers/systemd/*.* ~/backups/
+  cp ~/pigallery2/config/config.json ~/backups/
+  cp ~/nginx/config/nginx.conf ~/backups/
+  ```
+
+- Database:
+
+  Backup `podman exec database mariadb-dump -u pi_user -p'PiPass321$%^' pigallery > ~/db_pigallery_$(date +%F).sql`
+
+  Restore `podman exec -i database mariadb -u pi_user -p'PiPass321$%^' pigallery < ~/db_pigallery_YYYY-MM-DD.sql`
+
+- Ja ho tenim gairebé tot, a gaudir!
