@@ -345,3 +345,19 @@ Tornem a ser dins d'una Fedora 43, cal vigilar com sempre el SELinux, els arxius
   Restore `podman exec -i database mariadb -u pi_user -p'PiPassword' pigallery < ~/db_pigallery_YYYY-MM-DD.sql`
 
 - Ja ho tenim gairebé tot, a gaudir!
+
+## Important activar
+
+- És molt important activar el punt de communicació de Podman:
+
+  ```
+  systemctl --user enable --now podman.socket
+  ```
+
+- Activarem també l'actualització automàtica d'imatges
+
+  ```
+  systemctl --user enable --now podman-auto-update.timer
+  ```
+
+- Salut!
