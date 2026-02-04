@@ -311,7 +311,7 @@ Tornem a ser dins d'una Fedora 43, cal vigilar com sempre el SELinux, els arxius
             "DBFileName": "sqlite.db"
         },
         "mysql": {
-            "host": "database",
+            "host": "mariadb",
             "port": 3306,
             "database": "pigallery",
             "username": "pi_user",
