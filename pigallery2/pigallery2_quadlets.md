@@ -124,6 +124,7 @@ Tornem a ser dins d'una Fedora 43, cal vigilar com sempre el SELinux, els arxius
 
   [Container]
   ContainerName=mariadb
+  AutoUpdate=registry
   Image=lscr.io/linuxserver/mariadb:latest
   Environment=PUID=1000
   Environment=PGID=1000
@@ -152,6 +153,7 @@ Tornem a ser dins d'una Fedora 43, cal vigilar com sempre el SELinux, els arxius
 
   [Container]
   ContainerName=pigallery2
+  AutoUpdate=registry
   Image=docker.io/bpatrik/pigallery2:latest
   Environment=NODE_ENV=production
 
@@ -184,6 +186,7 @@ Tornem a ser dins d'una Fedora 43, cal vigilar com sempre el SELinux, els arxius
 
   [Container]
   ContainerName=nginx
+  AutoUpdate=registry
   Image=docker.io/nginx:latest
   Volume=%h/nginx/config/nginx.conf:/etc/nginx/nginx.conf:ro,Z
   Volume=%h/nginx/config/certs/selfsigned.crt:/etc/nginx/certs/selfsigned.crt:ro,Z
