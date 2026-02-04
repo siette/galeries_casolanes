@@ -93,14 +93,14 @@ Tornem a ser dins d'una Fedora 43, cal vigilar com sempre el SELinux, els arxius
 
 - Els contenidors han de parlar-se entre ells (necessiten una xarxa), per això farem una xarxa amb quadlets, la configurem i li fem un start.
 
-- Escrivim la xarxa fent un `vim ~/.config/containers/systemd/proxy_net.network`:
+- Escrivim la xarxa fent un `vim ~/.config/containers/systemd/cim_lan.network`:
 
   ```text
   [Unit]
-  Description=Xarxa per a PiGallery2
+  Description=Xarxa per a cim.lan
 
   [Network]
-  NetworkName=proxy_net
+  NetworkName=cim_lan-net
   Subnet=10.91.0.0/24
   Gateway=10.91.0.1
   ```
@@ -108,21 +108,21 @@ Tornem a ser dins d'una Fedora 43, cal vigilar com sempre el SELinux, els arxius
 - La posem en marxa, primer sempre hem de fer un `systemctl --user daemon-reload` per a que llegeixi els canvis en els arxius de systemd, això crea el .service corresponent que és el que després haurem d'engegar amb:
 
   ```
-  systemctl --user start proxy_net-network.service
+  systemctl --user start cim_lan-network.service
   ```
 
-  > COMPTE: encara que l'arxiu de la xarxa era `proxy_net.network`, el servei associat creat en fer el `systemctl --user daemon-reload` és `proxy_net-network.service`
+  > COMPTE: encara que l'arxiu de la xarxa era `cim_lan.network`, el servei associat creat en fer el `systemctl --user daemon-reload` és `cim_lan-network.service`
 
 ## Creació del Quadlet database.container
 
-- Fem un `vim ~/.config/containers/systemd/database.container` i escrivim:
+- Fem un `vim ~/.config/containers/systemd/mariadb.container` i escrivim:
 
   ```text
   [Unit]
   Description=MariaDB Database Server
 
   [Container]
-  ContainerName=database
+  ContainerName=mariadb
   Image=lscr.io/linuxserver/mariadb:latest
   Environment=PUID=1000
   Environment=PGID=1000
@@ -132,7 +132,7 @@ Tornem a ser dins d'una Fedora 43, cal vigilar com sempre el SELinux, els arxius
   Environment=MYSQL_USER=pi_user
   Environment=MYSQL_PASSWORD=PiPassword
   Volume=%h/mariadb/config:/config:Z
-  Network=proxy_net
+  Network=cim_lan-net
 
   [Install]
   WantedBy=default.target
@@ -146,8 +146,8 @@ Tornem a ser dins d'una Fedora 43, cal vigilar com sempre el SELinux, els arxius
   [Unit]
   Description=Servei PiGallery2
   # Amb això ens assegurem que la base de dades estigui activa abans d'aixecar pigallery2.service
-  Requires=database.service
-  After=database.service
+  Requires=mariadb.service
+  After=mariadb.service
 
   [Container]
   ContainerName=pigallery2
@@ -161,7 +161,7 @@ Tornem a ser dins d'una Fedora 43, cal vigilar com sempre el SELinux, els arxius
   Volume=%h/pigallery2/tmp:/app/data/tmp:Z
   Volume=%h/pigallery2/db:/app/data/db:Z
 
-  Network=proxy_net
+  Network=cim_lan-net
 
   [Service]
   Restart=always
@@ -171,23 +171,23 @@ Tornem a ser dins d'una Fedora 43, cal vigilar com sempre el SELinux, els arxius
   WantedBy=default.target
   ```
 
-## Creació del Quadlet proxy.container (Nginx)
+## Creació del Quadlet nginx.container
 
-- Fem un `vim ~/.config/containers/systemd/proxy.container` i escrivim:
+- Fem un `vim ~/.config/containers/systemd/nginx.container` i escrivim:
 
   ```text
   [Unit]
   Description=Nginx Reverse Proxy Principal
-  Wants=database.service pigallery2.service
-  After=database.service pigallery2.service
+  Wants=mariadb.service pigallery2.service
+  After=mariadb.service pigallery2.service
 
   [Container]
-  ContainerName=proxy
+  ContainerName=nginx
   Image=docker.io/nginx:latest
   Volume=%h/nginx/config/nginx.conf:/etc/nginx/nginx.conf:ro,Z
   Volume=%h/nginx/config/certs/selfsigned.crt:/etc/nginx/certs/selfsigned.crt:ro,Z
   Volume=%h/nginx/config/certs/selfsigned.key:/etc/nginx/certs/selfsigned.key:ro,Z
-  Network=proxy_net
+  Network=cim_lan-net
   PublishPort=80:80
   PublishPort=443:443
 
@@ -197,7 +197,7 @@ Tornem a ser dins d'una Fedora 43, cal vigilar com sempre el SELinux, els arxius
 
 ## Configuració de Nginx
 
-- Fitxer de configuració per al proxy invers cap a PiGallery2, fem un `vim ~/nginx/config/nginx.conf` i escrivim:
+- Fitxer de configuració per al proxy invers cap a PiGallery2, fem un `vim ~/nginx/config/pigallery2.conf` i escrivim:
 
   ```text
   events {
@@ -213,7 +213,7 @@ Tornem a ser dins d'una Fedora 43, cal vigilar com sempre el SELinux, els arxius
       tcp_nodelay on;
       keepalive_timeout 65;
 
-      # DNS de la xarxa proxy_net (Gateway)
+      # DNS de la xarxa cim_lan-net (Gateway)
       resolver 10.91.0.1 valid=30s;
 
       gzip on;
@@ -281,7 +281,7 @@ Tornem a ser dins d'una Fedora 43, cal vigilar com sempre el SELinux, els arxius
 
   ```bash
   systemctl --user daemon-reload
-  systemctl --user start database pigallery2 proxy
+  systemctl --user start mariadb pigallery2 nginx
   ```
 
 - Aquí ja hauríem de poder veure la web a <https://pigallery2.cim.lan>
@@ -336,8 +336,8 @@ Tornem a ser dins d'una Fedora 43, cal vigilar com sempre el SELinux, els arxius
 
 - Database:
 
-  Backup `podman exec database mariadb-dump -u pi_user -p'PiPass321$%^' pigallery > ~/db_pigallery_$(date +%F).sql`
+  Backup `podman exec database mariadb-dump -u pi_user -p'PiPassword' pigallery > ~/db_pigallery_$(date +%F).sql`
 
-  Restore `podman exec -i database mariadb -u pi_user -p'PiPass321$%^' pigallery < ~/db_pigallery_YYYY-MM-DD.sql`
+  Restore `podman exec -i database mariadb -u pi_user -p'PiPassword' pigallery < ~/db_pigallery_YYYY-MM-DD.sql`
 
 - Ja ho tenim gairebé tot, a gaudir!
