@@ -108,12 +108,13 @@ Tornem a ser dins d'una Fedora 43, cal vigilar com sempre el SELinux, els arxius
 - La posem en marxa, primer sempre hem de fer un `systemctl --user daemon-reload` per a que llegeixi els canvis en els arxius de systemd, això crea el .service corresponent que és el que després haurem d'engegar amb:
 
   ```
+  systemctl --user daemon-reload
   systemctl --user start cim_lan-network.service
   ```
 
   > COMPTE: encara que l'arxiu de la xarxa era `cim_lan.network`, el servei associat creat en fer el `systemctl --user daemon-reload` és `cim_lan-network.service`
 
-## Creació del Quadlet database.container
+## Creació del Quadlet mariadb.container
 
 - Fem un `vim ~/.config/containers/systemd/mariadb.container` i escrivim:
 
