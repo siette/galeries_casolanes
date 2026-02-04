@@ -82,11 +82,11 @@ Tornem a ser dins d'una Fedora 43, cal vigilar com sempre el SELinux, els arxius
 - Certificat per al domini intern pigallery2.cim.lan, aquesta comanda l'hem d'executar dins de `~/nginx/config/certs`:
 
   ```bash
-  openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
+  openssl req -x509 -nodes -days 10950 -newkey rsa:4096 \
   -keyout selfsigned.key \
   -out selfsigned.crt \
-  -subj "/CN=pigallery2.cim.lan" \
-  -addext "subjectAltName = DNS:pigallery2.cim.lan,IP:192.168.1.75"
+  -subj "/CN=cim.lan" \
+  -addext "subjectAltName = DNS:cim.lan,DNS:*.cim.lan"
   ```
 
 ## Creació de la xarxa dedicada dels contenidors
