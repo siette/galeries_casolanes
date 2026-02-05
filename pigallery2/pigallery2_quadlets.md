@@ -130,7 +130,7 @@ Tornem a ser dins d'una Fedora 43, cal vigilar com sempre el SELinux, els arxius
   Environment=PGID=1000
   Environment=TZ=Europe/Madrid
   Environment=MYSQL_ROOT_PASSWORD=RootPassword
-  Environment=MYSQL_DATABASE=pigallery
+  Environment=MYSQL_DATABASE=pigallery2
   Environment=MYSQL_USER=pi_user
   Environment=MYSQL_PASSWORD=PiPassword
   Volume=%h/mariadb/config:/config:Z
@@ -313,7 +313,7 @@ Tornem a ser dins d'una Fedora 43, cal vigilar com sempre el SELinux, els arxius
         "mysql": {
             "host": "mariadb",
             "port": 3306,
-            "database": "pigallery",
+            "database": "pigallery2",
             "username": "pi_user",
             "password": "PiPassword"
         }
