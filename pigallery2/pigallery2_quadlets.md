@@ -340,9 +340,9 @@ Tornem a ser dins d'una Fedora 43, cal vigilar com sempre el SELinux, els arxius
 
 - Database:
 
-  Backup `podman exec database mariadb-dump -u pi_user -p'PiPassword' pigallery > ~/db_pigallery_$(date +%F).sql`
+  Backup `podman exec mariadb mariadb-dump -u pi_user -p'PiPassword' pigallery > ~/db_pigallery_$(date +%F).sql`
 
-  Restore `podman exec -i database mariadb -u pi_user -p'PiPassword' pigallery < ~/db_pigallery_YYYY-MM-DD.sql`
+  Restore `podman exec -i mariadb mariadb -u pi_user -p'PiPassword' pigallery < ~/db_pigallery_YYYY-MM-DD.sql`
 
 - Ja ho tenim gairebé tot, a gaudir!
 
