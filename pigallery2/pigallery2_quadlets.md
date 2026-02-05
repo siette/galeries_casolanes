@@ -348,16 +348,11 @@ Tornem a ser dins d'una Fedora 43, cal vigilar com sempre el SELinux, els arxius
 
 ## Important activar
 
-- És molt important activar el punt de communicació de Podman:
-
-  ```
-  systemctl --user enable --now podman.socket
-  ```
-
-- Activarem també l'actualització automàtica d'imatges
+- Activarem l'actualització automàtica de les imatges podman:
 
   ```
   systemctl --user enable --now podman-auto-update.timer
   ```
 
 - Salut!
+
