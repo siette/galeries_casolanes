@@ -57,10 +57,11 @@ Tornem a ser dins d'una Fedora 43, cal vigilar com sempre el SELinux, els arxius
   mkdir -p ~/.config/containers/systemd
   ```
 
-- Per a Nginx (configuració i certificats):
+- Per a Nginx (dominis i certificats):
 
   ```bash
   mkdir -p ~/nginx/config/certs
+  mkdir -p ~/nginx/config/conf.d
   ```
 
 - Per a PiGallery2 (fotos i dades):
@@ -188,9 +189,8 @@ Tornem a ser dins d'una Fedora 43, cal vigilar com sempre el SELinux, els arxius
   ContainerName=nginx
   AutoUpdate=registry
   Image=docker.io/nginx:latest
-  Volume=%h/nginx/config/nginx.conf:/etc/nginx/nginx.conf:ro,Z
-  Volume=%h/nginx/config/certs/selfsigned.crt:/etc/nginx/certs/selfsigned.crt:ro,Z
-  Volume=%h/nginx/config/certs/selfsigned.key:/etc/nginx/certs/selfsigned.key:ro,Z
+  Volume=%h/nginx/config/conf.d:/etc/nginx/conf.d:ro,Z
+  Volume=%h/nginx/config/certs:/etc/nginx/certs:ro,Z
   Network=cim_lan-net
   PublishPort=80:80
   PublishPort=443:443
@@ -201,80 +201,63 @@ Tornem a ser dins d'una Fedora 43, cal vigilar com sempre el SELinux, els arxius
 
 ## Configuració de Nginx
 
-- Fitxer de configuració per al proxy invers cap a PiGallery2, fem un `vim ~/nginx/config/nginx.conf` i escrivim:
+- Fitxer de configuració per al proxy invers cap a PiGallery2, fem un `vim ~/nginx/config/conf.d/pigallery2.conf` i escrivim:
 
   ```text
-  events {
-      worker_connections 1024;
+  # Redirecció HTTP → HTTPS
+  server {
+      listen 80;
+      server_name pigallery2.cim.lan _;
+      return 301 https://$host$request_uri;
   }
 
-  http {
-      include /etc/nginx/mime.types;
-      default_type application/octet-stream;
-
-      sendfile on;
-      tcp_nopush on;
-      tcp_nodelay on;
-      keepalive_timeout 65;
+  # Servidor HTTPS
+  server {
+      listen 443 ssl;
+      server_name pigallery2.cim.lan _;
 
       # DNS de la xarxa cim_lan-net (Gateway)
       resolver 10.91.0.1 valid=30s;
 
-      gzip on;
-      gzip_types text/css text/plain text/javascript application/javascript application/json image/svg+xml;
+      ssl_certificate /etc/nginx/certs/selfsigned.crt;
+      ssl_certificate_key /etc/nginx/certs/selfsigned.key;
 
-      server {
-          listen 80;
-          server_name pigallery2.cim.lan _;
-          return 301 https://$host$request_uri;
+      server_tokens off;
+
+      # Headers de seguretat
+      add_header X-Content-Type-Options nosniff always;
+      add_header X-Frame-Options DENY always;
+      add_header Strict-Transport-Security "max-age=31536000; includeSubDomains" always;
+      add_header Referrer-Policy "strict-origin-when-cross-origin" always;
+      add_header X-XSS-Protection "1; mode=block" always;
+
+      # Backend real de PiGallery2 (port 80)
+      set $upstream_pigallery pigallery2;
+
+      location /pgapi {
+          proxy_pass http://$upstream_pigallery:80;
+          proxy_http_version 1.1;
+          proxy_set_header Host $host;
+          proxy_set_header Upgrade $http_upgrade;
+          proxy_set_header Connection "upgrade";
+          proxy_set_header X-Real-IP $remote_addr;
+          proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+          proxy_set_header X-Forwarded-Proto $scheme;
+          proxy_buffering off;
+          proxy_redirect off;
       }
 
-      server {
-          listen 443 ssl;
-          server_name pigallery2.cim.lan _;
-
-          ssl_certificate /etc/nginx/certs/selfsigned.crt;
-          ssl_certificate_key /etc/nginx/certs/selfsigned.key;
-
-          server_tokens off;
-
-          # Headers de seguretat
-          add_header X-Content-Type-Options nosniff always;
-          add_header X-Frame-Options DENY always;
-          add_header Strict-Transport-Security "max-age=31536000; includeSubDomains" always;
-          add_header Referrer-Policy "strict-origin-when-cross-origin" always;
-          add_header X-XSS-Protection "1; mode=block" always;
-
-          # Variable per al proxy dinàmic
-          set $upstream_pigallery pigallery2;
-
-          location /pgapi {
-              proxy_pass http://$upstream_pigallery:80;
-              proxy_http_version 1.1;
-              proxy_set_header Host $host;
-              proxy_set_header Upgrade $http_upgrade;
-              proxy_set_header Connection "upgrade";
-              proxy_set_header X-Real-IP $remote_addr;
-              proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-              proxy_set_header X-Forwarded-Proto $scheme;
-              proxy_buffering off;
-              proxy_redirect off;
-
-          }
-
-          location / {
-              proxy_pass http://$upstream_pigallery:80;
-              proxy_http_version 1.1;
-              proxy_set_header Host $host;
-              proxy_set_header Upgrade $http_upgrade;
-              proxy_set_header Connection "upgrade";
-              proxy_set_header X-Real-IP $remote_addr;
-              proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-              proxy_set_header X-Forwarded-Proto $scheme;
-              proxy_buffering off;
-              proxy_redirect off;
-
-          }
+      location / {
+          proxy_pass http://$upstream_pigallery:80;
+          proxy_http_version 1.1;
+          proxy_set_header Host $host;
+          proxy_set_header Upgrade $http_upgrade;
+          proxy_set_header Connection "upgrade";
+          proxy_set_header X-Real-IP $remote_addr;
+          proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+          proxy_set_header X-Forwarded-Proto $scheme;
+          proxy_buffering off;
+          proxy_redirect off;
       }
   }
   ```
@@ -335,7 +318,7 @@ Tornem a ser dins d'una Fedora 43, cal vigilar com sempre el SELinux, els arxius
   ```
   cp ~/.config/containers/systemd/*.* ~/backups/
   cp ~/pigallery2/config/config.json ~/backups/
-  cp ~/nginx/config/nginx.conf ~/backups/
+  cp ~/nginx/config/conf.d/*.* ~/backups/
   ```
 
 - Database:
@@ -354,5 +337,30 @@ Tornem a ser dins d'una Fedora 43, cal vigilar com sempre el SELinux, els arxius
   systemctl --user enable --now podman-auto-update.timer
   ```
 
-- Salut!
+## Per saber que hi ha dins d'un contenidor i configurar correctament
 
+- Crear un contenidor temporal:
+
+  ```bash
+  podman create --name tmpnginx nginx:latest
+  ```
+
+- Mirar dins del contenidor:
+
+  ```bash
+  podman start tmpnginx
+  podman exec tmpnginx ls -als /etc/nginx <-- si volem saber que hi ha dins
+  podman exec -it tmpnginx sh <-- obrir una shell i mirar dins
+  ```
+
+- Copiar un directori del contenidor:
+
+  ```bash
+  podman cp tmpnginx:/etc/nginx ./nginx-config-oficial
+  ```
+
+- Eliminar el contenidor temporal
+
+  ```bash
+  podman rm -f tmpnginx
+  ```
