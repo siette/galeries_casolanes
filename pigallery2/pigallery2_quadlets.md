@@ -342,7 +342,7 @@ Tornem a ser dins d'una Fedora 43, cal vigilar com sempre el SELinux, els arxius
 - Crear un contenidor temporal:
 
   ```bash
-  podman create --name tmpnginx nginx:latest
+  podman create --name tmpnginx docker.io/nginx:latest
   ```
 
 - Mirar dins del contenidor:
