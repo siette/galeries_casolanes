@@ -6,7 +6,7 @@ Amb Quadlets, en canvi, definim els serveis de manera declarativa. Els fitxers n
 
 Intentarem explicar com hem posat en marxa PiGallery2 amb MariaDB i Nginx fent servir Quadlets, és per veure-ho a la xarxa de casa, el domini per accedir a la galeria serà: <https://pigallery2.cim.lan>
 
-Hem fet una barreja d'imatges oficials de <https://docker.io> i de <https://linuxserver.io>. Moltes gràcies.
+Hem fet una barreja d'imatges oficials de <https://hub.docker.io> i de <https://linuxserver.io>. Moltes gràcies.
 
 ## Introducció
 
