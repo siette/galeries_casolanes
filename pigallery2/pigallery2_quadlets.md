@@ -313,12 +313,12 @@ Tornem a ser dins d'una Fedora 43, cal vigilar com sempre el SELinux, els arxius
 
 ## Backups:
 
-- Containers, .json i nginx.conf:
+- Containers, .json i .conf:
 
   ```
   cp ~/.config/containers/systemd/*.* ~/backups/
   cp ~/pigallery2/config/config.json ~/backups/
-  cp ~/nginx/config/conf.d/*.* ~/backups/
+  cp ~/nginx/config/conf.d/*.conf ~/backups/
   ```
 
 - Database:
@@ -339,7 +339,7 @@ Tornem a ser dins d'una Fedora 43, cal vigilar com sempre el SELinux, els arxius
 
 ## Per saber que hi ha dins d'un contenidor i configurar correctament
 
-- Crear un contenidor temporal:
+- Crear un contenidor temporal, per exemple de nginx:
 
   ```bash
   podman create --name tmpnginx docker.io/nginx:latest
