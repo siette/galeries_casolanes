@@ -1,9 +1,9 @@
-# Galeries Casolanes
+# Homelab Català
 
-Piwigo, Lychee, PiGallery2 i el que vingui.
+Piwigo, Lychee, PiGallery2, Homer, Samba, Uptime-Kuma, FileBrowser i el que vingui.
 
-Aquest repositori conté la documentació i configuracions de les diferents galeries fotogràfiques que faig servir al meu homelab.
-Cada galeria està documentada dins del seu directori propi, amb instruccions completes i detallades.
+Aquest repositori conté la documentació i configuracions dels diferents serveis que faig servir al meu homelab.
+Cada projecte està documentat dins del seu directori propi, amb instruccions completes i detallades.
 
 ## - Índex de galeries
 
@@ -14,10 +14,10 @@ Cada galeria està documentada dins del seu directori propi, amb instruccions co
 
 ## - Objectiu del repositori
 
-Mantenir en un sol lloc tota la documentació de les galeries casolanes, amb configuracions netes, coherents i fàcils de reproduir.
+Mantenir en un sol lloc tota la documentació dels projectes casolans, amb configuracions netes, coherents i fàcils de reproduir.
 
 ## - Estat actual
 
-Només la galeria **Lychee** està completament documentada, ara també **Pigallery2** i **Lychee** amb **Quadlets!!!!**  
+Només **Lychee** està completament documentat, ara també **Pigallery2** i **Lychee** amb **Quadlets!!!!**
 La resta s’aniran afegint a poc a poc.
 
