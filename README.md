@@ -14,7 +14,7 @@ Cada projecte està documentat dins del seu directori propi, amb instruccions co
 
 ## - Objectiu del repositori
 
-Mantenir en un sol lloc tota la documentació dels projectes casolans, amb configuracions netes, coherents i fàcils de reproduir.
+Mantenir en un sol lloc tota la documentació dels projectes, amb configuracions netes, coherents i fàcils de reproduir.
 
 ## - Estat actual
 
