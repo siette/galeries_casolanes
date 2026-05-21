@@ -21,3 +21,4 @@ Mantenir en un sol lloc tota la documentació dels projectes, amb configuracions
 Només **Lychee** està completament documentat, ara també **Pigallery2** i **Lychee** amb **Quadlets!!!!**
 La resta s’aniran afegint a poc a poc...
 
+Es farà tot amb quadlets a partir d'ara.
