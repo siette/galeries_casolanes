@@ -22,3 +22,4 @@ Només **Lychee** està completament documentat, ara també **Pigallery2** i **L
 La resta s’aniran afegint a poc a poc...
 
 Es farà tot amb quadlets a partir d'ara.
+
